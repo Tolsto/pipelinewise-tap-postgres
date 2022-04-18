@@ -135,7 +135,7 @@ def create_array_elem(elem, sql_datatype, conn_info):
     if elem is None:
         return None
 
-    with post_db.open_connection(conn_info, False, True) as conn:
+    with post_db.open_typecast_connection(conn_info) as conn:
         with conn.cursor() as cur:
             if sql_datatype == 'bit[]':
                 cast_datatype = 'boolean[]'

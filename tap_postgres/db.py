@@ -36,6 +36,14 @@ def fully_qualified_table_name(schema, table):
     return f'"{canonicalize_identifier(schema)}"."{canonicalize_identifier(table)}"'
 
 
+def open_typecast_connection(conn_config):
+    if not conn_config.get('typecast_socket', 'false') == 'true':
+        return open_connection(conn_config)
+
+    conn = psycopg2.connect(database='postgres')
+    return conn
+
+
 def open_connection(conn_config, logical_replication=False, prioritize_primary=False):
     cfg = {
         'application_name': 'pipelinewise',
