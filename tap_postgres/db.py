@@ -40,6 +40,7 @@ def open_typecast_connection(conn_config):
     if not conn_config.get('typecast_socket', 'false') == 'true':
         return open_connection(conn_config)
 
+    LOGGER.info('Using socket connection for typecasts')
     conn = psycopg2.connect(database='postgres')
     return conn
 
