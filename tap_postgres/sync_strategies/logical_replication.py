@@ -150,6 +150,8 @@ def create_array_elem(elem, sql_datatype, conn_info):
         return local_array_parsing(elem, int)
     elif sql_datatype == 'character varying[]':
         return local_array_parsing(elem)
+    elif sql_datatype == 'bigint[]':
+        return local_array_parsing(elem, int)
 
     with post_db.open_typecast_connection(conn_info) as conn:
         with conn.cursor() as cur:
