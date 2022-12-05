@@ -602,6 +602,9 @@ def sync_tables(conn_info, logical_streams, state, end_lsn, state_file):
     lsn_received_timestamp = datetime.datetime.utcnow()
     poll_timestamp = datetime.datetime.utcnow()
 
+    if max_run_seconds == 0:
+        LOGGER.info('max_run_seconds set to 0 - will run in eternity if break_at_end_lsn is set to False')
+
     try:
         while True:
             # Disconnect when no data received for logical_poll_total_seconds
@@ -611,7 +614,7 @@ def sync_tables(conn_info, logical_streams, state, end_lsn, state_file):
                 LOGGER.info('Breaking - %i seconds of polling with no data', poll_duration)
                 break
 
-            if datetime.datetime.utcnow() >= (start_run_timestamp + datetime.timedelta(seconds=max_run_seconds)):
+            if max_run_seconds > 0 and datetime.datetime.utcnow() >= (start_run_timestamp + datetime.timedelta(seconds=max_run_seconds)):
                 LOGGER.info('Breaking - reached max_run_seconds of %i', max_run_seconds)
                 break
 
